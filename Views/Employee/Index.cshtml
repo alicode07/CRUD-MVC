@@ -1,0 +1,91 @@
+﻿@model IEnumerable<HrManagement.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    .table tr th {
+        background-color : cornflowerblue;
+    }
+
+    .toast-success {
+        background-color: #2d8f3c !important; 
+        color: white !important;
+    }
+</style>
+
+<h1>Employee List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_Mobile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_Salary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Emp_Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_Mobile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_Salary)
+            </td>
+            <td>
+                    @(item.Emp_Status ? "Active" : "Inactive" )
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.DepartmentName)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Emp_Id">Edit</a> |
+                    <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Emp_Id">Details</a> |
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Emp_Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <script>
+        @if (TempData["Success"] != null)
+        {
+                    <text>
+                        toastr.success("@TempData["Success"]");
+                    </text>
+        }
+    </script>
+}

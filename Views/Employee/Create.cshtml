@@ -1,0 +1,105 @@
+﻿@model HrManagement.Models.Employee
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Employee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Save">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Emp_Name" class="control-label"></label>
+                <input asp-for="Emp_Name" class="form-control" />
+                <span asp-validation-for="Emp_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emp_Age" class="control-label"></label>
+                <input asp-for="Emp_Age" class="form-control" />
+                <span asp-validation-for="Emp_Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emp_Gender" class="control-label">Gender</label>
+                <input type="radio" asp-for="Emp_Gender" value="Male"  /> Male
+                <input type="radio" asp-for="Emp_Gender" value="Female"   /> Female
+                <input type="radio" asp-for="Emp_Gender" value="Others" /> Others
+                <span asp-validation-for="Emp_Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emp_Mobile" class="control-label"></label>
+                <input asp-for="Emp_Mobile" class="form-control" />
+                <span asp-validation-for="Emp_Mobile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emp_Salary" class="control-label"></label>
+                <input asp-for="Emp_Salary" class="form-control" />
+                <span asp-validation-for="Emp_Salary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dept_Id" class="control-label">Department</label>
+                <select asp-for="Dept_Id" class="form-control">
+                    <option value="">----Select Department-----</option>
+                    @foreach (var item in ViewBag.Departments)
+                    {
+                        <option value="@item.Dept_Id">@item.DepartmentName</option>
+
+                    }
+                </select>
+                <span asp-validation-for="Dept_Id" class="text-danger"></span>
+            </div>
+            
+
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Emp_Status" /> @Html.DisplayNameFor(model => model.Emp_Status)
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" name="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready( function(){
+            $('#Emp_Name').focus();
+        });
+                $(document).ready(function () {
+            $('#submit').click(function () {
+                var Name = $('#Emp_Name').val().trim();
+                var Age = $('#Emp_Age').val().trim();
+                var Gender = $("input[name='Emp_Gender']:checked").val();
+
+                if (!Name) {
+                    toastr.error("Name cannot be empty");
+                    return;
+                }
+
+                if (!Age || isNaN(Age) || parseInt(Age) <= 0) {
+                    toastr.error("Age must be a valid number greater than 0");
+                    return;
+                }
+
+                if (!Gender) {
+                    toastr.error("Gender must be selected");
+                    return;
+                }
+                toastr.success("Form submitted successfully");
+            });
+        });
+
+    </script>
+}
